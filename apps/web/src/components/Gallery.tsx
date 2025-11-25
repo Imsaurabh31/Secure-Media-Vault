@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { graphqlRequest, queries } from '../graphql';
 import { UploadArea } from './UploadArea';
 import { AssetCard } from './AssetCard';
@@ -18,7 +18,7 @@ export function Gallery() {
         first: 50,
         q: searchQuery || undefined
       });
-      setAssets(data.myAssets.edges.map((edge: any) => edge.node));
+      setAssets(data.myAssets?.edges?.map((edge: any) => edge.node) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {

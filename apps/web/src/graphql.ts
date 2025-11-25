@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+// Demo data store
 
 // Demo data store
 const mockAssets: any[] = [];
@@ -74,6 +74,14 @@ async function graphqlRequest(query: string, variables?: any) {
     const index = mockAssets.findIndex(a => a.id === variables.assetId);
     if (index > -1) mockAssets.splice(index, 1);
     return { deleteAsset: true };
+  }
+  
+  if (query.includes('shareAsset')) {
+    const asset = mockAssets.find(a => a.id === variables.assetId);
+    if (asset) {
+      asset.version++;
+    }
+    return { shareAsset: asset };
   }
   
   return {};

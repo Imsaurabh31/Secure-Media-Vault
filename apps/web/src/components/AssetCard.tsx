@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { graphqlRequest, queries, mutations } from '../graphql';
 import { UploadManager } from '../utils/uploadManager';
 import { ShareModal } from './ShareModal';
@@ -13,8 +13,8 @@ interface AssetCardProps {
 export function AssetCard({ asset, onUpdate, onDelete }: AssetCardProps) {
   const [isRenaming, setIsRenaming] = useState(false);
   const [newFilename, setNewFilename] = useState(asset.filename);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [urlExpiry, setUrlExpiry] = useState<Date | null>(null);
+  const [, setDownloadUrl] = useState<string | null>(null);
+  const [, setUrlExpiry] = useState<Date | null>(null);
   const [countdown, setCountdown] = useState<number>(0);
   const [showShareModal, setShowShareModal] = useState(false);
   const uploadManager = UploadManager.getInstance();
@@ -103,7 +103,9 @@ export function AssetCard({ asset, onUpdate, onDelete }: AssetCardProps) {
         assetId: asset.id
       });
       
-      const { url, expiresAt } = data.getDownloadUrl;
+      const result = data.getDownloadUrl;
+      if (!result) return;
+      const { url, expiresAt } = result;
       await navigator.clipboard.writeText(url);
       
       setDownloadUrl(url);

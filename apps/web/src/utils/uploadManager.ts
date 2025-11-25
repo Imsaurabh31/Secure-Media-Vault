@@ -36,7 +36,7 @@ export class UploadManager {
 
   async startUpload(
     ticket: UploadTicket,
-    file: File,
+    _file: File,
     onProgress: (progress: number) => void,
     onComplete: (asset: Asset) => void,
     onError: (error: string) => void
@@ -98,7 +98,7 @@ export class UploadManager {
     }
   }
 
-  private async uploadFile(
+  private async _uploadFile(
     ticket: UploadTicket,
     file: File,
     signal: AbortSignal,
@@ -146,7 +146,7 @@ export class UploadManager {
     });
   }
 
-  private async computeFileHash(file: File): Promise<string> {
+  private async _computeFileHash(_file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {

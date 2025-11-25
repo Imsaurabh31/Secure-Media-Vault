@@ -30,6 +30,7 @@ export function UploadArea({ onAssetCreated, onAssetUpdated }: UploadAreaProps) 
         });
 
         const ticket = data.createUploadUrl;
+        if (!ticket) return;
         
         // Create initial asset for UI
         const initialAsset: Asset = {
@@ -49,7 +50,7 @@ export function UploadArea({ onAssetCreated, onAssetUpdated }: UploadAreaProps) 
         uploadManager.startUpload(
           ticket,
           file,
-          (progress) => {
+          (_progress) => {
             // Update progress in UI
             onAssetUpdated({
               ...initialAsset,
