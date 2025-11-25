@@ -47,8 +47,11 @@ export const demoAuth = {
     return { error: null };
   },
 
-  onAuthStateChange: (_callback: any) => {
-    authCallback = _callback;
+  onAuthStateChange: (callback: any) => {
+    // Store and use the callback
+    authCallback = callback;
+    // Immediately use callback to satisfy TypeScript
+    void callback;
     return {
       data: { subscription: { unsubscribe: () => { authCallback = null; } } }
     };
