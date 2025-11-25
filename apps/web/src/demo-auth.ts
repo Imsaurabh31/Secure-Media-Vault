@@ -47,12 +47,8 @@ export const demoAuth = {
     return { error: null };
   },
 
-  onAuthStateChange: (callback: any) => {
-    authCallback = callback;
-    // Use callback parameter
-    if (callback) {
-      authCallback = callback;
-    }
+  onAuthStateChange: (_callback: any) => {
+    authCallback = _callback;
     return {
       data: { subscription: { unsubscribe: () => { authCallback = null; } } }
     };
