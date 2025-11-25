@@ -98,70 +98,7 @@ export class UploadManager {
     }
   }
 
-  private async _uploadFile(
-    ticket: UploadTicket,
-    file: File,
-    signal: AbortSignal,
-    onProgress: (progress: number) => void
-  ) {
-    // Simulate network failures for testing
-    const failureRate = (window as any).__DEV_FAILURE_RATE__ || 0;
-    if (failureRate > 0 && Math.random() * 100 < failureRate) {
-      throw new Error('Simulated network failure');
-    }
 
-    const xhr = new XMLHttpRequest();
-    
-    return new Promise<void>((resolve, reject) => {
-      xhr.upload.addEventListener('progress', (e) => {
-        if (e.lengthComputable) {
-          const progress = (e.loaded / e.total) * 100;
-          onProgress(progress);
-        }
-      });
-
-      xhr.addEventListener('load', () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          resolve();
-        } else {
-          reject(new Error(`Upload failed: ${xhr.status}`));
-        }
-      });
-
-      xhr.addEventListener('error', () => {
-        reject(new Error('Upload failed'));
-      });
-
-      xhr.addEventListener('abort', () => {
-        reject(new Error('Upload cancelled'));
-      });
-
-      signal.addEventListener('abort', () => {
-        xhr.abort();
-      });
-
-      xhr.open('PUT', ticket.uploadUrl);
-      xhr.setRequestHeader('Content-Type', file.type);
-      xhr.send(file);
-    });
-  }
-
-  private async _computeFileHash(_file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const wordArray = CryptoJS.lib.WordArray.create(e.target?.result as ArrayBuffer);
-          const hash = CryptoJS.SHA256(wordArray);
-          resolve(hash.toString(CryptoJS.enc.Hex));
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
-    });
-  }
 
   private updateUploadState(assetId: string, updates: Partial<UploadState>) {
     const current = this.uploads.get(assetId);
