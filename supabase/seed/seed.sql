@@ -1,0 +1,2 @@
+-- Insert test users (these will be created via Supabase Auth in practice)
+-- This is just for reference - actual users created via auth signup

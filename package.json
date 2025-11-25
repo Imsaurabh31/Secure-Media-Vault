@@ -1,0 +1,18 @@
+{
+  "name": "secure-media-vault",
+  "private": true,
+  "scripts": {
+    "install-all": "cd apps/api && npm install && cd ../web && npm install && cd ../../packages/shared && npm install",
+    "build-shared": "cd packages/shared && npm run build",
+    "dev": "concurrently \"cd apps/api && npm run dev\" \"cd apps/web && npm run dev\"",
+    "dev:api": "cd apps/api && npm run dev",
+    "dev:web": "cd apps/web && npm run dev",
+    "build": "npm run build-shared && cd apps/api && npm run build && cd ../web && npm run build",
+    "db:reset": "supabase db reset",
+    "db:migrate": "supabase db push",
+    "test": "cd apps/api && npm test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
