@@ -49,6 +49,8 @@ export const demoAuth = {
 
   onAuthStateChange: (callback: any) => {
     authCallback = callback;
+    // Ensure callback is used
+    console.log('Auth callback set:', typeof callback);
     return {
       data: { subscription: { unsubscribe: () => { authCallback = null; } } }
     };

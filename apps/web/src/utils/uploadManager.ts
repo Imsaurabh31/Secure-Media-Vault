@@ -1,4 +1,3 @@
-import CryptoJS from 'crypto-js';
 import { graphqlRequest, mutations } from '../graphql';
 import type { UploadTicket, Asset } from '../types';
 
